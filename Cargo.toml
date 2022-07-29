@@ -1,0 +1,9 @@
+[package]
+name = "unwrap_goto"
+version = "0.1.0"
+edition = "2018"
+authors = ["mu <mu.2019@hotmail.com>"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
