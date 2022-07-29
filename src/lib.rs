@@ -102,9 +102,12 @@ mod tests {
         let m = vec![Some(1), None, Some(2)];
         let mut k = 0;
         for j in m {
+            println!("income value:{:?}", j);
             k = some_or_continue!(j);
+            println!("wrap value:{:?}", k);            
         }
-        assert_eq!(k, 2);        
+        println!("final value:{:?}", k);
+        assert_eq!(k, 2);
     }
 
     #[test]
@@ -112,20 +115,20 @@ mod tests {
         let m = vec![Some(1), None, Some(2)];
         let mut k = 0;
         for j in m {
-            println!("j:{:?}", j);
+            println!("income value:{:?}", j);
             k = some_or_break!(j);
-            println!("k:{:?}", k);            
+            println!("wrap value:{:?}", k);            
         }
-        println!("k2:{:?}", k);
+        println!("final value:{:?}", k);
         assert_eq!(k, 1);
     }
 
     fn do_none_is_return(m: &Vec<Option<i32>>) -> i64 {
         let mut k = 0;
         for v in m {
-            println!("v:{:?}", v);
+            println!("imcome:{:?}", v);
             k = some_or_return!(v, 8);
-            println!("k:{:?}", k);
+            println!("wrap value:{:?}", k);
         }
         assert_eq!(k, 1);
         0
@@ -135,8 +138,7 @@ mod tests {
     fn none_is_return() {
         let m = vec![Some(1), None, Some(1)];
         let n = do_none_is_return(&m);
-        println!("n:{:?}", n);
-
+        println!("return value:{:?}", n);
     }    
     
 }
