@@ -10,6 +10,16 @@ macro_rules! some_or_continue{
             }
         }
     };
+    ($e:expr, $log_info: expr) => {
+        {
+            if $e.is_none() {
+                $log_info;
+                continue;
+            } else {
+                $e.unwrap()
+            }
+        }
+    };
 }
 
 #[macro_export]
@@ -44,7 +54,17 @@ macro_rules! some_or_return {
                 $e.unwrap()
             }
         }
-    };    
+    };
+    ($e:expr, $return_value: expr, $log_info: expr) => {
+        {
+            if $e.is_none() {
+                $log_info;
+                return $return_value;
+            } else {
+                $e.unwrap()
+            }
+        }
+    };
 }
 
 #[macro_export]
@@ -58,8 +78,36 @@ macro_rules! ok_or_continue{
             }
         }
     };
+    ($e:expr, $log_info: expr) => {
+        {
+            if $e.is_err() {
+                $log_info;
+                return $return_value;
+            } else {
+                $e.unwrap()
+            }
+        }
+    };    
 }
 
+
+/// Unwrap arguments when it represents ([`Ok`]).
+///
+/// otherwise will return ([`()`]) or second arguments.
+/// # Examples
+///
+/// ```edition2018
+///
+/// #[macro_use]
+/// extern crate unwrap_goto;
+/// 
+/// fn when_err_and_return() {
+///     let x: Result<i32, &str> = Err("Some error message");
+///     ok_or_return!(x);
+///     println!("anything print out:{:?}", x);
+/// }
+/// ``` 
+/// 
 #[macro_export]
 macro_rules! ok_or_return{
     ($e:expr) => {
@@ -80,6 +128,16 @@ macro_rules! ok_or_return{
             }
         }
     };
+    ($e:expr, $return_value: expr, $log_info: expr) => {
+        {
+            if $e.is_err() {
+                $log_info;
+                return $return_value;
+            } else {
+                $e.unwrap()
+            }
+        }
+    };
 }
 
 #[macro_export]
@@ -93,6 +151,16 @@ macro_rules! ok_or_break{
             }
         }
     };
+    ($e:expr, $log_info: expr) => {
+        {
+            if $e.is_err() {
+                $log_info;
+                break;
+            } else {
+                $e.unwrap()
+            }
+        }
+    };    
 }
 
 #[cfg(test)]
@@ -141,4 +209,40 @@ mod tests {
         println!("return value:{:?}", n);
     }    
     
+
+    #[test]
+    fn when_err_and_return() {
+        let x: Result<i32, &str> = Err("Some error message");
+        ok_or_return!(x);
+        println!("anything print out:{:?}", x);
+    }
+
+    
+    fn when_err_and_return_something() -> i32 {
+        let x: Result<i32, &str> = Err("Some error message");
+        ok_or_return!(x, -1);
+        println!("anything print out:{:?}", x);
+        0
+    }
+
+    #[test]
+    fn call_when_err_and_return_something() {
+        let x = when_err_and_return_something();
+        println!("call when_err_and_return_something return: {:?}", x);
+        assert!(x == -1);
+    }
+
+
+    #[test]
+    fn call_when_err_return_log() {
+        use log::error;
+
+        let x: Result<i32, &str> = Err("Some error message");
+        ok_or_return!(x, (), error!("log error info.{:?}", x));
+        println!("anything print out");
+    }
+
+
+
+
 }

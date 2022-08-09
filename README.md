@@ -46,4 +46,14 @@ fn none_is_return() {
 } 
 
 ```
- 
+
+
+```rust
+use log::error;
+
+fn call_when_err_return_log() {
+    let x: Result<i32, &str> = Err("Some error message");
+    ok_or_return!(x, (), error!("log error info.{:?}", x));
+    println!("anything print out");
+}
+```

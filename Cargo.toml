@@ -8,9 +8,11 @@ homepage = "https://github.com/mu2019/unwrap_goto"
 repository = "https://github.com/mu2019/unwrap_goto"
 license = "MIT OR Apache-2.0"
 keywords = ["error", "unwrap"]
-categories = ["error", "unwrap"]
 readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[dev-dependencies]
+log = "0.4.17"
 
