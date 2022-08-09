@@ -1,6 +1,6 @@
 [package]
 name = "unwrap_goto"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2018"
 authors = ["mu <mu.2019@hotmail.com>"]
 description = "unwrap Option an Result or goto `return`/`cotinue`/`break` as you want."

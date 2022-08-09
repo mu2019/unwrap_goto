@@ -82,7 +82,7 @@ macro_rules! ok_or_continue{
         {
             if $e.is_err() {
                 $log_info;
-                return $return_value;
+                continue;
             } else {
                 $e.unwrap()
             }
